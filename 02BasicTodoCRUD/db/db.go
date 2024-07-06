@@ -26,7 +26,6 @@ func (todo Todo) String() string {
 }
 
 func goDotEnvVariable(key string) string {
-
 	err := godotenv.Load(".env")
 
 	if err != nil {
@@ -47,7 +46,6 @@ func DBConn() *myDB {
 	if err != nil {
 		panic(err.Error())
 	}
-
 	return &myDB{conn: db}
 }
 
@@ -55,7 +53,6 @@ func (db *myDB) Close() error {
 	return db.conn.Close()
 }
 
-// create table if not exists
 func (db *myDB) MaybeCreateTable() {
 
 	query := `
@@ -76,7 +73,6 @@ func (db *myDB) MaybeCreateTable() {
 	println()
 }
 
-// get data by id
 func (db *myDB) GetById(todoId int) int {
 	var todo Todo
 
@@ -89,7 +85,6 @@ func (db *myDB) GetById(todoId int) int {
 	return todo.id
 }
 
-// fetch all data
 func (db *myDB) GetAll() {
 	query := fmt.Sprintf("SELECT * FROM %s", TABLE_NAME)
 
@@ -114,10 +109,8 @@ func (db *myDB) GetAll() {
 	if err3 := rows.Err(); err3 != nil {
 		panic(err3)
 	}
-
 }
 
-// insert todo
 func (db *myDB) AddTodo(title string, description string) int64 {
 	query := fmt.Sprintf("INSERT INTO %s (title, description) VALUES (?, ?)", TABLE_NAME)
 
@@ -133,7 +126,6 @@ func (db *myDB) AddTodo(title string, description string) int64 {
 		fmt.Println(rowsAffected, "Added Successfully!")
 	}
 	return rowsAffected
-
 }
 
 func (db *myDB) UpdateTodo(id int, title string, description string) {
@@ -154,7 +146,6 @@ func (db *myDB) UpdateTodo(id int, title string, description string) {
 	}
 }
 
-// remove from table
 func (db *myDB) Remove(id int) {
 	query := fmt.Sprintf("DELETE from %s where id = ?", TABLE_NAME)
 	res, err := db.conn.Exec(query, id)
@@ -166,5 +157,4 @@ func (db *myDB) Remove(id int) {
 	if rF, _ := res.RowsAffected(); rF > 0 {
 		fmt.Println("Successfully Removed!")
 	}
-
 }
