@@ -25,6 +25,7 @@ func scanText() string {
 func main() {
 	var option int
 	todoDB := db.DBConn()
+	defer todoDB.Close()
 
 	todoDB.MaybeCreateTable()
 
@@ -102,5 +103,4 @@ func main() {
 
 	}
 
-	todoDB.Close()
 }

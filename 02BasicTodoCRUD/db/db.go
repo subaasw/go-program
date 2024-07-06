@@ -51,8 +51,8 @@ func DBConn() *myDB {
 	return &myDB{conn: db}
 }
 
-func (db *myDB) Close() {
-	defer db.conn.Close()
+func (db *myDB) Close() error {
+	return db.conn.Close()
 }
 
 // create table if not exists
