@@ -57,7 +57,7 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		data := app.newTemplateData(r)
 		data.Form = form
 		app.render(w, http.StatusOK, "signup.tmpl.html", data)
-
+		return
 	}
 
 	err = app.users.Insert(form.Name, form.Email, form.Password)
@@ -104,6 +104,7 @@ func (app *application) userLoginPost(w http.ResponseWriter, r *http.Request) {
 		data.Form = form
 
 		app.render(w, http.StatusUnprocessableEntity, "login.tmpl.html", data)
+		return
 	}
 
 	id, err := app.users.Authenticate(form.Email, form.Password)
