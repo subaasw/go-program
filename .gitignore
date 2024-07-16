@@ -23,3 +23,11 @@ go.work.sum
 
 # env file
 .env
+
+# TLS certificates
+*/tls/*
+
+# Others
+*/*.tar.*
+*/*.zip
+*/*.gz
