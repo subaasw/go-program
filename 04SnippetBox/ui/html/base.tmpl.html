@@ -6,6 +6,7 @@
     <title>{{template "title" .}} - Snippetbox</title>
 
     <link rel="stylesheet" href="/static/css/main.css" />
+    <script src="/static/js/main.js"></script>
     <link
       rel="shortcut icon"
       href="/static/img/favicon.ico"
@@ -24,8 +25,16 @@
 
     {{template "nav" .}}
 
-    <main>{{template "main" .}}</main>
-    <footer>Powered by <a href="https://golang.org/">Go</a></footer>
+    <main>
+      {{with .Flash}}
+        <div class="flash">{{.}}</div>
+      {{end}}
+      
+      {{template "main" .}}
+    </main>
+    <footer>
+      Powered by <a href="https://golang.org/">Go</a> in {{.CurrentYear}}
+    </footer>
   </body>
 </html>
 {{end}}
