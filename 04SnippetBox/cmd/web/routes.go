@@ -9,15 +9,15 @@ import (
 )
 
 func (app *application) routes() http.Handler {
-
 	router := httprouter.New()
-
 	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		app.notFound(w)
 	})
 
 	fileServer := http.FileServer(http.FS(ui.Files))
 	router.Handler(http.MethodGet, "/static/*filePath", fileServer)
+
+	router.HandlerFunc(http.MethodGet, "/ping", ping)
 
 	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
 
@@ -31,6 +31,7 @@ func (app *application) routes() http.Handler {
 	router.Handler(http.MethodPost, "/user/login", dynamic.ThenFunc(app.userLoginPost))
 
 	protected := dynamic.Append(app.requireAuthentication)
+
 	router.Handler(http.MethodGet, "/snippet/create", protected.ThenFunc(app.snippetCreate))
 	router.Handler(http.MethodPost, "/snippet/create", protected.ThenFunc(app.snippetCreatePost))
 	router.Handler(http.MethodPost, "/user/logout", protected.ThenFunc(app.userLogout))
