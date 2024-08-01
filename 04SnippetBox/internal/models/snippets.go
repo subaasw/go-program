@@ -6,6 +6,12 @@ import (
 	"time"
 )
 
+type SnippetModelInterface interface {
+	Insert(title string, content string, expires int) (int, error)
+	Get(id int) (*Snippet, error)
+	Latest() ([]*Snippet, error)
+}
+
 type Snippet struct {
 	ID             int
 	Title, Content string
@@ -30,7 +36,6 @@ func (m *SnippetModel) Insert(title string, content string, expires int) (int, e
 	}
 
 	return int(id), nil
-
 }
 
 func (m *SnippetModel) Get(id int) (*Snippet, error) {
@@ -41,7 +46,6 @@ func (m *SnippetModel) Get(id int) (*Snippet, error) {
 	s := &Snippet{}
 
 	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
-
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrNoRows
