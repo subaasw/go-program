@@ -29,7 +29,6 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 		}
 
 		next.ServeHTTP(w, r)
-
 	})
 }
 

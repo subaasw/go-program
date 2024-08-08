@@ -1,6 +1,9 @@
 package mocks
 
-import "snippetbox-app/internal/models"
+import (
+	"snippetbox-app/internal/models"
+	"time"
+)
 
 type UserModel struct{}
 
@@ -27,4 +30,18 @@ func (m *UserModel) Exists(id int) (bool, error) {
 	default:
 		return false, nil
 	}
+}
+
+func (u *UserModel) Get(id int) (*models.User, error) {
+	if id == 1 {
+		u := &models.User{
+			ID:      1,
+			Name:    "Alice",
+			Email:   "alice@mail.com",
+			Created: time.Now(),
+		}
+
+		return u, nil
+	}
+	return nil, models.ErrNoRecord
 }

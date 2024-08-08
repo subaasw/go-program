@@ -18,6 +18,7 @@ import (
 )
 
 type application struct {
+	debug          bool
 	errorLog       *log.Logger
 	infoLog        *log.Logger
 	snippets       models.SnippetModelInterface
@@ -42,8 +43,10 @@ func openDB(dns string) (*sql.DB, error) {
 
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
-
 	dns := flag.String("dns", "web:gop@ss@/snippetbox?parseTime=true", "MYSQl Data source name")
+
+	debug := flag.Bool("debug", false, "Enable Debug mode")
+
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
@@ -76,6 +79,7 @@ func main() {
 		templateCache:  templateCache,
 		formDecoder:    formDecoder,
 		sessionManager: sessionManager,
+		debug:          *debug,
 	}
 
 	tlsConfig := &tls.Config{
