@@ -60,7 +60,7 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 	if !form.Valid() {
 		data := app.newTemplateData(r)
 		data.Form = form
-		app.render(w, http.StatusOK, "signup.tmpl.html", data)
+		app.render(w, http.StatusUnprocessableEntity, "signup.tmpl.html", data)
 		return
 	}
 
