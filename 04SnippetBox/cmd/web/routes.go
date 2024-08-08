@@ -34,6 +34,9 @@ func (app *application) routes() http.Handler {
 	protected := dynamic.Append(app.requireAuthentication)
 
 	router.Handler(http.MethodGet, "/account/view", protected.ThenFunc(app.myAccountPage))
+	router.Handler(http.MethodGet, "/account/change-password", protected.ThenFunc(app.updatePassword))
+	router.Handler(http.MethodPost, "/account/change-password", protected.ThenFunc(app.updatePasswordPost))
+
 	router.Handler(http.MethodGet, "/snippet/create", protected.ThenFunc(app.snippetCreate))
 	router.Handler(http.MethodPost, "/snippet/create", protected.ThenFunc(app.snippetCreatePost))
 	router.Handler(http.MethodPost, "/user/logout", protected.ThenFunc(app.userLogout))
